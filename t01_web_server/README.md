@@ -1,7 +1,5 @@
 # Taller 1 - Tópicos especiales en telemática
 
-Acceso: https://eafit.sgg10.net/st0263/taller1
-
 ## Estructura del proyecto
 ```
 .
