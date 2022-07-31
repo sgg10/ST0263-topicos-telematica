@@ -1,0 +1,13 @@
+MINETYPES = {
+    "js": "application/javascript",
+    "jsonp": "application/javascript",
+    "json": "application/json",
+    "webapp": "application/x-web-app-manifest+json",
+    "xml": "application/xml",
+    "pdf": "application/pdf",
+    "mp4": "audio/mp4",
+    "jpeg": "image/jpeg",
+    "jpg": "image/jpeg",
+    "html": "text/html",
+    "txt": "text/html"
+}

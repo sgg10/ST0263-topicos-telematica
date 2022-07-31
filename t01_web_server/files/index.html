@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller 1</title>
+</head>
+<body>
+    <h1>Bienvenido al taller 1 de topicos especiales telematica</h1>
+    <p>
+        A continuación encontrara un listado de
+        archivos de ejemplos a los que podra acceder
+        mediante la URL ({HOST}/{filename}) o haciendo
+        click sobre el archivo que desee visualizar.
+    </p>
+    <p>
+        Tambien podra ver como esta construida la plantilla
+        de esta pagina(index.html) haciendo click en el
+        archivo index.html de la lista. Este archivo se apoya
+        de Jinja2 para actualizar el listado de archivo sin
+        tener que detener el web server.
+    </p>
+    <br>
+    <ul>
+        {% for filename in files %}
+            <li><a href="/{{filename}}">{{filename}}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
