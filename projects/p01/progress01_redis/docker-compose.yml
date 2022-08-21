@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  redis-master:
+    image: 'bitnami/redis:latest'
+    ports:
+      - '6379:6379'
+    environment:
+      - REDIS_REPLICATION_MODE=master
+      - REDIS_PASSWORD=abc123
+
+  redis-slave-1:
+    image: 'bitnami/redis:latest'
+    ports:
+      - '6378'
+    depends_on:
+      - redis-master
+    environment:
+      - REDIS_REPLICATION_MODE=slave
+      - REDIS_MASTER_HOST=redis-master
+      - REDIS_MASTER_PORT_NUMBER=6379
+      - REDIS_MASTER_PASSWORD=abc123
+      - REDIS_PASSWORD=123abc
+
+  redis-slave-2:
+    image: 'bitnami/redis:latest'
+    ports:
+      - '6377'
+    depends_on:
+      - redis-master
+    environment:
+      - REDIS_REPLICATION_MODE=slave
+      - REDIS_MASTER_HOST=redis-master
+      - REDIS_MASTER_PORT_NUMBER=6379
+      - REDIS_MASTER_PASSWORD=abc123
+      - REDIS_PASSWORD=123abc
+
+  redis-slave-3:
+    image: 'bitnami/redis:latest'
+    ports:
+      - '6376'
+    depends_on:
+      - redis-master
+    environment:
+      - REDIS_REPLICATION_MODE=slave
+      - REDIS_MASTER_HOST=redis-master
+      - REDIS_MASTER_PORT_NUMBER=6379
+      - REDIS_MASTER_PASSWORD=abc123
+      - REDIS_PASSWORD=123abc
