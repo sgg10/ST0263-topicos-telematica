@@ -3,6 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # Import Routers
 from app.routers.users import router as users_router
+from app.routers.readmes import router as readmes_router
+
+# Workers
+from app.workers.html_generator.suscriber import HTMLGeneratorSuscriber
 
 app = FastAPI(title="Project 1 progress | Redis")
 
@@ -18,6 +22,7 @@ app.add_middleware(
 # Register routers
 
 app.include_router(users_router)
+app.include_router(readmes_router)
 
 @app.get("/")
 def root():
@@ -29,3 +34,7 @@ def root():
         ],
         "documentation": "/docs"
     }
+
+# Start Workers
+readme_suscriber = HTMLGeneratorSuscriber("README-SUSCRIBER")
+readme_suscriber.start()

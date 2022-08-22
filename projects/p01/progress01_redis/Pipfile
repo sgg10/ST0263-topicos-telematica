@@ -8,6 +8,7 @@ redis = "*"
 hiredis = "*"
 fastapi = "*"
 uvicorn = "*"
+jinja2 = "*"
 
 [dev-packages]
 

@@ -9,6 +9,8 @@ class CRUDUsers:
 
     def __init__(self, redis_connection: StrictRedis):
         self.redis = redis_connection
+        self.publisher = self.redis.pubsub()
+        self.chanel = "users-readme"
 
     def get_users(self, *args, **kwargs):
         return [user.decode('utf8') for user in self.redis.lrange("users", 0, -1)]
@@ -66,5 +68,30 @@ class CRUDUsers:
             self.redis.delete(f"users:{nickname}")
             self.redis.lrem("users", 0, nickname)
             return
+
+        raise HTTPAppException(message="User not exist", status_code=status.HTTP_404_NOT_FOUND)
+
+    def create_readme(self, nickname: str):
+        users = self.get_users()
+
+        if nickname in users:
+            self.redis.publish(self.chanel, nickname)
+            self.redis.hset(f"users:{nickname}", mapping={"request_readme": "1"})
+            return True
+
+        raise HTTPAppException(message="User not exist", status_code=status.HTTP_404_NOT_FOUND)
+
+    def get_readme(self, nickname: str):
+        users = self.get_users()
+
+        if nickname in users:
+            readme = self.redis.hget(f"users:{nickname}", "readme")
+            if readme:
+                return readme.decode("utf-8"), True
+            request = self.redis.hget(f"users:{nickname}", "request_readme")
+
+            if request:
+                return f"{nickname}'s readme is not ready yet, check again in a few seconds", False
+            return f"The readme for this user has not been requested, try again with the POST method", False
 
         raise HTTPAppException(message="User not exist", status_code=status.HTTP_404_NOT_FOUND)
